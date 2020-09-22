@@ -18,7 +18,7 @@ else
 fi
 
 CONTENT=$(echo "$INPUT" | yq '.' | tr -d '\n' | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
-RESPONSE=$(curl --header "Content-Type: application/json" $GITLAB_API_URL/ci/lint --data @- <<CURL_DATA
+RESPONSE=$(curl --header "Content-Type: application/json" --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" $GITLAB_API_URL/ci/lint --data @- <<CURL_DATA
 {"content": $CONTENT}
 CURL_DATA
 )
